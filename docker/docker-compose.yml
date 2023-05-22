@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+
+  db:
+    image: postgres
+    container_name: records
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data_task_2:/var/lib/postgresql/data
+
+volumes:
+  db_data_task_2:
+
