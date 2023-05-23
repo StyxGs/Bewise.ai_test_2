@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from record.schemas import AudioGET
+from src.record.schemas import AudioGET
 from servises.servises import add_audio_id_db, check_user, give_record
 from src.database_contion import get_async_session
 
