@@ -18,7 +18,8 @@ async def add_user_in_db(username: str, session: AsyncSession):
 
 
 async def check_user(user_data: dict, session: AsyncSession):
-    query: Select = select(User).where(User.id == user_data['user_id'], User.token == user_data['token'])
+    query: Select = select(User).where(User.id == user_data['user_id'],
+                                       User.token == UUID(user_data['token'], version=4))
     user = await session.execute(query)
     return user.all()
 

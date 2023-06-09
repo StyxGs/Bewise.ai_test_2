@@ -1,7 +1,7 @@
-import uuid
+from uuid import UUID
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, Header, Form
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,7 +16,7 @@ router = APIRouter(
 
 
 @router.post('/add-record')
-async def add_audio(user_id: int = Form(ge=1), token: uuid.UUID = Form(),
+async def add_audio(user_id: int = Form(ge=1), token=Header(),
                     file: UploadFile = File(...),
                     session: AsyncSession = Depends(get_async_session)):
     data_user = {'user_id': user_id, 'token': token}
@@ -26,7 +26,6 @@ async def add_audio(user_id: int = Form(ge=1), token: uuid.UUID = Form(),
         return {'url': f'http://localhost:8000/record?id={audio_id}&user_id={data_user["user_id"]}'}
     else:
         raise HTTPException(detail='Пользователя с такими данными не существует.', status_code=HTTPStatus.UNAUTHORIZED)
-    pass
 
 
 @router.get('/get_record')
